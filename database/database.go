@@ -29,7 +29,7 @@ func ConnectionNew(ID string) bool {
 	if err != nil {
 		return false
 	} else {
-		_, err := database.Exec("INSERT INTO connections(id) VALUES (?,?)", ID, time.Now())
+		_, err := database.Exec("INSERT INTO connections(id, last_heartbeat_time) VALUES (?,?)", ID, time.Now())
 
 		if err != nil {
 			return false
