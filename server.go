@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/NotKatsu/Otter/endpoints"
+	"github.com/NotKatsu/GoRat/endpoints"
 	"github.com/pterm/pterm"
 )
 

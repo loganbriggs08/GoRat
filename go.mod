@@ -1,4 +1,4 @@
-module github.com/NotKatsu/Otter
+module github.com/NotKatsu/GoRat
 
 go 1.20
 
