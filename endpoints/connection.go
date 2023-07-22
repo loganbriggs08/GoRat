@@ -71,7 +71,7 @@ func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 					ID: CustomID,
 				}
 
-				w.WriteHeader(http.StatusForbidden)
+				w.WriteHeader(http.StatusOK)
 
 				NewConnectionSuccessJson, err := json.Marshal(ConnectionSuccessJson)
 
