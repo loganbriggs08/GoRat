@@ -21,6 +21,10 @@ type ConnectionSuccess struct {
 	ID string `json:"ID"`
 }
 
+type HeartBeatSuccess struct {
+	Time any `json:"time"`
+}
+
 func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		OS := r.Header.Get("OS")
@@ -174,7 +178,28 @@ func ConnectionHeartbeat(w http.ResponseWriter, r *http.Request) {
 						}
 					}
 				} else {
-					fmt.Println("connection is still active, time now needs to be updated here.")
+					if database.UpdateConnection(ID) == false {
+						pterm.Fatal.WithFatal(true).Println("Failed to update connection in database.")
+					} else {
+						NewHeartbeatSuccess := HeartBeatSuccess{
+							Time: time.Now(),
+						}
+						w.WriteHeader(http.StatusOK)
+
+						NewResponseHeartbeatSuccess, err := json.Marshal(NewHeartbeatSuccess)
+
+						if err != nil {
+							pterm.Fatal.WithFatal(true).Println(err)
+
+						} else {
+							_, err := w.Write(NewResponseHeartbeatSuccess)
+
+							if err != nil {
+								pterm.Fatal.WithFatal(true).Println(err)
+							}
+						}
+
+					}
 				}
 			}
 		}
