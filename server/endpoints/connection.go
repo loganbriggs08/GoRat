@@ -5,6 +5,6 @@ import (
 	"net/http"
 )
 
-func ConnectionNew(w http.ResponseWriter, r *http.Request) bool{
+func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome to the HomePage!")
 }
