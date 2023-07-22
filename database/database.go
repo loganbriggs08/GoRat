@@ -74,6 +74,18 @@ func GetConnectionData(ID string) string {
 	return ""
 }
 
-func DeleteConnection() {
+func DeleteConnection(ID string) bool {
+	database, err := sql.Open("sqlite3", "database.db")
 
+	if err != nil {
+		return false
+	} else {
+		_, err := database.Exec("DELETE FROM connections WHERE id=?", ID)
+
+		if err != nil {
+			return false
+		} else {
+			return true
+		}
+	}
 }
