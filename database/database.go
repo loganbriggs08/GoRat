@@ -21,3 +21,19 @@ func CreateTables() bool {
 		}
 	}
 }
+
+func ConnectionNew(ID string, MACAddress string, OS string, Name string) bool {
+	database, err := sql.Open("sqlite3", "database.db")
+
+	if err != nil {
+		return false
+	} else {
+		_, err := database.Exec("INSERT INTO connections(id, mac_address, operating_system, computer_name) VALUES (?,?,?,?)", ID, MACAddress, OS, Name)
+
+		if err != nil {
+			return false
+		} else {
+			return true
+		}
+	}
+}
