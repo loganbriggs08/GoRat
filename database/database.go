@@ -7,6 +7,11 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+type ConnectionData struct {
+	ID            string `json:"id"`
+	LastHeartbeat string `json:"last_heartbeat"`
+}
+
 func CreateTables() bool {
 	database, err := sql.Open("sqlite3", "database.db")
 
@@ -38,3 +43,5 @@ func ConnectionNew(ID string) bool {
 		}
 	}
 }
+
+func GetConnectionData() {}
