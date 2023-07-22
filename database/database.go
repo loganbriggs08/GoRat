@@ -100,7 +100,6 @@ func UpdateConnection(ID string) bool {
 		_, err := database.Exec("UPDATE connections SET last_heartbeat_time=? WHERE id=?", time.Now(), ID)
 
 		if err != nil {
-			fmt.Println(err)
 			return false
 		} else {
 			return true
