@@ -2,22 +2,28 @@ package endpoints
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/pterm/pterm"
 )
 
-type MethodError struct {
+type Error struct {
 	ErrorCode    uint64 `json:"error_code"`
 	ErrorMessage string `json:"error_message"`
 }
 
 func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		fmt.Println("Correct Method")
+		ComputerMACAddress := r.Header.Get("ComputerMACAddress")
+		ComputerOS := r.Header.Get("ComputerOS")
+		ComputerName := r.Header.Get("ComputerName")
+
+		if ComputerMACAddress == "" || ComputerName == "" || ComputerOS == "" {
+
+		}
+
 	} else {
-		NewMethodError := MethodError{
+		NewMethodError := Error{
 			ErrorCode:    http.StatusMethodNotAllowed,
 			ErrorMessage: "POST is the only accepted Method for this endpoint.",
 		}
