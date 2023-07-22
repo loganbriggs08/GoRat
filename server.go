@@ -12,6 +12,8 @@ import (
 func main() {
 	if database.CreateTables() == true {
 		http.HandleFunc("/connection/new", endpoints.ConnectionNew)
+		http.HandleFunc("/connection/heartbeat", endpoints.ConnectionHeartbeat)
+
 		err := http.ListenAndServe(":8080", nil)
 
 		if err != nil {
