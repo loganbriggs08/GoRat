@@ -20,7 +20,7 @@ func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 		Name := r.Header.Get("Name")
 
 		if ID == "" || OS == "" || Name == "" {
-			NewUnauthorizedError := Error{
+			NewUnauthorizedError := Error {
 				ErrorCode:    http.StatusUnauthorized,
 				ErrorMessage: "Content is missing from request headers.",
 			}
