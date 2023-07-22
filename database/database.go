@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 
@@ -83,6 +84,23 @@ func DeleteConnection(ID string) bool {
 		_, err := database.Exec("DELETE FROM connections WHERE id=?", ID)
 
 		if err != nil {
+			return false
+		} else {
+			return true
+		}
+	}
+}
+
+func UpdateConnection(ID string) bool {
+	database, err := sql.Open("sqlite3", "database.db")
+
+	if err != nil {
+		return false
+	} else {
+		_, err := database.Exec("UPDATE connections SET time=? WHERE id=?", time.Now(), ID)
+
+		if err != nil {
+			fmt.Println(err)
 			return false
 		} else {
 			return true
