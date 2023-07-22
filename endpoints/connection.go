@@ -137,39 +137,46 @@ func ConnectionHeartbeat(w http.ResponseWriter, r *http.Request) {
 		} else {
 			storedTimeString := database.GetConnectionData(ID)
 
-			storedTime, err := time.Parse("2006-01-02 15:04:05.999999999-07:00", storedTimeString)
-
-			if err != nil {
-				fmt.Println("Error parsing time:", err)
-				return
-			}
-			currentTime := time.Now()
-			timeDifference := currentTime.Sub(storedTime)
-
-			seconds := timeDifference.Seconds()
-
-			if seconds >= 5 {
-				NewError := Error{
-					ErrorCode:    http.StatusForbidden,
-					ErrorMessage: "Connection was closed as a heartbeat was not sent in the last 5 seconds.",
-				}
-				w.WriteHeader(http.StatusForbidden)
-
-				NewJsonError, err := json.Marshal(NewError)
+			if storedTimeString == "" {
+				pterm.Fatal.WithFatal(true).Println("Valid connection couldn't be found")
+			} else {
+				storedTime, err := time.Parse("2006-01-02 15:04:05.999999999-07:00", storedTimeString)
 
 				if err != nil {
-					pterm.Fatal.WithFatal(true).Println(err)
-				} else {
-					_, err := w.Write(NewJsonError)
+					fmt.Println("Error parsing time:", err)
+					return
+				}
+				currentTime := time.Now()
+				timeDifference := currentTime.Sub(storedTime)
+
+				seconds := timeDifference.Seconds()
+
+				if seconds >= 5 {
+					NewError := Error{
+						ErrorCode:    http.StatusForbidden,
+						ErrorMessage: "Connection was closed as a heartbeat was not sent in the last 5 seconds.",
+					}
+					w.WriteHeader(http.StatusForbidden)
+
+					NewJsonError, err := json.Marshal(NewError)
 
 					if err != nil {
 						pterm.Fatal.WithFatal(true).Println(err)
+					} else {
+						_, err := w.Write(NewJsonError)
+
+						if err != nil {
+							pterm.Fatal.WithFatal(true).Println(err)
+						} else {
+							if database.DeleteConnection(ID) == false {
+								pterm.Fatal.WithFatal(true).Println("Failed to delete connection from database.")
+							}
+						}
 					}
+				} else {
+					fmt.Println("connection is still active, time now needs to be updated here.")
 				}
-			} else {
-
 			}
-
 		}
 
 	} else {
