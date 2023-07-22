@@ -44,4 +44,6 @@ func ConnectionNew(ID string) bool {
 	}
 }
 
-func GetConnectionData() {}
+func GetConnectionData(ID string) (ConnectionData, bool) {
+
+}
