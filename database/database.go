@@ -12,6 +12,12 @@ func CreateTables() bool {
 	if err != nil {
 		return false
 	} else {
-		database.Exec("CREATE TABLE IF NOT EXISTS connections()")
+		_, err := database.Exec("CREATE TABLE IF NOT EXISTS connections(id VARCHAR(100), mac_address VARCHAR(100), operating_system VARCHAR(100), computer_name VARCHAR(100))")
+
+		if err != nil {
+			return false
+		} else {
+			return true
+		}
 	}
 }
