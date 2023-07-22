@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/pterm/pterm"
@@ -15,11 +16,10 @@ type Error struct {
 func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		ID := r.Header.Get("ID")
-		IP := r.Header.Get("IP")
 		OS := r.Header.Get("OS")
 		Name := r.Header.Get("Name")
 
-		if ID == "" || OS == "" || Name == "" || IP == "" {
+		if ID == "" || OS == "" || Name == "" {
 			NewUnauthorizedError := Error{
 				ErrorCode:    http.StatusUnauthorized,
 				ErrorMessage: "Content is missing from request headers.",
@@ -38,6 +38,8 @@ func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 					pterm.Fatal.WithFatal(true).Println(err)
 				}
 			}
+		} else {
+			fmt.Println("Everything is all good.")
 		}
 
 	} else {
