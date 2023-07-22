@@ -15,10 +15,11 @@ type Error struct {
 func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		ID := r.Header.Get("ID")
+		IP := r.Header.Get("IP")
 		OS := r.Header.Get("OS")
 		Name := r.Header.Get("Name")
 
-		if ID == "" || OS == "" || Name == "" {
+		if ID == "" || OS == "" || Name == "" || IP == "" {
 			NewUnauthorizedError := Error{
 				ErrorCode:    http.StatusUnauthorized,
 				ErrorMessage: "Content is missing from request headers.",
