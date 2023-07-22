@@ -2,14 +2,16 @@ package database
 
 import (
 	"database/sql"
+	"log"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/pterm/pterm"
 )
 
 type ConnectionData struct {
-	ID            string `json:"id"`
-	LastHeartbeat string `json:"last_heartbeat"`
+	ID                string
+	LastHeartbeatTime string
 }
 
 func CreateTables() bool {
@@ -44,6 +46,34 @@ func ConnectionNew(ID string) bool {
 	}
 }
 
-func GetConnectionData(ID string) (ConnectionData, bool) {
+func GetConnectionData(ID string) string {
+	db, err := sql.Open("sqlite3", "database.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT id, last_heartbeat_time FROM connections WHERE id = ?", ID)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var connectionData ConnectionData
+
+		err := rows.Scan(&connectionData.ID, &connectionData.LastHeartbeatTime)
+
+		if err != nil {
+			pterm.Fatal.WithFatal(true).Println(err)
+		} else {
+			return connectionData.LastHeartbeatTime
+		}
+
+	}
+	return ""
+}
+
+func DeleteConnection() {
 
 }
