@@ -14,12 +14,29 @@ type Error struct {
 
 func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		ComputerMACAddress := r.Header.Get("ComputerMACAddress")
-		ComputerOS := r.Header.Get("ComputerOS")
-		ComputerName := r.Header.Get("ComputerName")
+		ID := r.Header.Get("ID")
+		OS := r.Header.Get("OS")
+		Name := r.Header.Get("Name")
 
-		if ComputerMACAddress == "" || ComputerName == "" || ComputerOS == "" {
+		if ID == "" || OS == "" || Name == "" {
+			NewUnauthorizedError := Error{
+				ErrorCode:    http.StatusUnauthorized,
+				ErrorMessage: "Content is missing from request headers.",
+			}
 
+			w.WriteHeader(http.StatusUnauthorized)
+
+			NewReturnUnauthorizedError, err := json.Marshal(NewUnauthorizedError)
+
+			if err != nil {
+				pterm.Fatal.WithFatal(true).Println(err)
+			} else {
+				_, err := w.Write(NewReturnUnauthorizedError)
+
+				if err != nil {
+					pterm.Fatal.WithFatal(true).Println(err)
+				}
+			}
 		}
 
 	} else {
