@@ -108,3 +108,6 @@ func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+func ConnectionHeartbeat(w http.ResponseWriter, r *http.Request) {
+}
