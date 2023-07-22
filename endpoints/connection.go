@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-
+	
 	"github.com/pterm/pterm"
 )
 
@@ -15,12 +15,12 @@ type Error struct {
 
 func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		ID := r.Header.Get("ID")
 		OS := r.Header.Get("OS")
 		Name := r.Header.Get("Name")
+		MACAddress := r.Header.Get("MAC_Address")
 
-		if ID == "" || OS == "" || Name == "" {
-			NewUnauthorizedError := Error {
+		if MACAddress == "" || OS == "" || Name == "" {
+			NewUnauthorizedError := Error{
 				ErrorCode:    http.StatusUnauthorized,
 				ErrorMessage: "Content is missing from request headers.",
 			}
