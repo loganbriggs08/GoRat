@@ -9,7 +9,7 @@ import (
 
 func main() {
 	http.HandleFunc("/connection/new", endpoints.ConnectionNew)
-	err := http.ListenAndServe(":6969", nil)
+	err := http.ListenAndServe(":8080", nil)
 
 	if err != nil {
 		pterm.Fatal.WithFatal(true).Println(err)
