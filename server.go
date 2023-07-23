@@ -3,9 +3,9 @@ package main
 import (
 	"net/http"
 
-	"github.com/NotKatsu/GoRat/gui/windows"
 	"github.com/NotKatsu/GoRat/modules/database"
 	"github.com/NotKatsu/GoRat/modules/endpoints"
+	"github.com/NotKatsu/GoRat/modules/gui/windows"
 	"github.com/pterm/pterm"
 
 	go_rat "github.com/AllenDang/giu"
@@ -29,7 +29,8 @@ func GUIHandler() {
 
 func main() {
 	if database.CreateTables() {
-		go APIHandler(); GUIHandler()
+		go APIHandler()
+		GUIHandler()
 
 	} else {
 		pterm.Fatal.WithFatal(true).Println("There was an error when the database tables were trying to be created.")
