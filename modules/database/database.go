@@ -20,7 +20,7 @@ func CreateTables() bool {
 	if err != nil {
 		return false
 	} else {
-		_, err := database.Exec(`CREATE TABLE IF NOT EXISTS connections(id VARCHAR(100), last_heartbeat_time VARCHAR(255))`)
+		_, err := database.Exec(`CREATE TABLE IF NOT EXISTS connections(id VARCHAR(100), last_heartbeat_time VARCHAR(255), connection_time VARCHAR(255))`)
 
 		if err != nil {
 			return false
@@ -36,7 +36,7 @@ func ConnectionNew(ID string) bool {
 	if err != nil {
 		return false
 	} else {
-		_, err := database.Exec("INSERT INTO connections(id, last_heartbeat_time) VALUES (?,?)", ID, time.Now())
+		_, err := database.Exec("INSERT INTO connections(id, last_heartbeat_time, connection_time) VALUES (?,?,?)", ID, time.Now(), time.Now())
 
 		if err != nil {
 			return false
