@@ -2,7 +2,6 @@ package endpoints
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/pterm/pterm"
@@ -10,7 +9,24 @@ import (
 
 func EventNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		fmt.Fprint(w, "Correct method was used.")
+		if r.Header.Get("Authorization") == "" {
+			NewError := Error{
+				ErrorCode:    http.StatusUnauthorized,
+				ErrorMessage: "Content is missing from request headers.",
+				}
+				w.WriteHeader(http.StatusUnauthorized)
+
+			NewReturnError, err := json.Marshal(NewError)
+
+			if err != nil {
+				pterm.Fatal.WithFatal(true).Println(err)
+			} else {
+				_, err := w.Write(NewReturnError)
+
+				if err != nil {
+					pterm.Fatal.WithFatal(true).Println(err)
+				}
+		}
 	} else {
 		NewError := Error{
 			ErrorCode:    http.StatusMethodNotAllowed,
