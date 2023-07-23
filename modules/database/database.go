@@ -105,3 +105,34 @@ func UpdateConnection(ID string) bool {
 		}
 	}
 }
+
+func GetConnections() []ConnectionData {
+	var Connections []ConnectionData
+
+	database, err := sql.Open("sqlite3", "database.db")
+
+	if err != nil {
+		return Connections
+	} else {
+		rows, err := database.Query("SELECT id, last_heartbeat_time FROM connections")
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer rows.Close()
+
+		for rows.Next() {
+			var connectionData ConnectionData
+
+			err := rows.Scan(&connectionData.ID, &connectionData.LastHeartbeatTime)
+
+			if err != nil {
+				pterm.Fatal.WithFatal(true).Println(err)
+			} else {
+				Connections = append(Connections, connectionData)
+			}
+		}
+
+		return Connections
+	}
+}
