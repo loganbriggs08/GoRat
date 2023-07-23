@@ -2,9 +2,9 @@ package windows
 
 import (
 	"fmt"
-	
-	"github.com/NotKatsu/GoRat/gui/components"
-	
+
+	"github.com/NotKatsu/GoRat/modules/gui/components"
+
 	go_rat "github.com/AllenDang/giu"
 )
 
