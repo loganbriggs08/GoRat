@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/NotKatsu/GoRat/modules/database"
@@ -23,7 +24,7 @@ func APIHandler() {
 }
 
 func GUIHandler() {
-	window := go_rat.NewMasterWindow("GoRat - 0 Connected Machines", 1000, 550, go_rat.MasterWindowFlagsNotResizable)
+	window := go_rat.NewMasterWindow(fmt.Sprintf("GoRat - %d Connected Machines", len(database.GetConnections())), 950, 550, go_rat.MasterWindowFlagsNotResizable)
 	window.Run(windows.MainWindow)
 }
 
