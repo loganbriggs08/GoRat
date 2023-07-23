@@ -31,7 +31,6 @@ func connectedMachinesCount() int64 {
 	return connectionCount
 }
 func MainWindow() {
-
 	go_rat.SingleWindow().Layout(
 
 		go_rat.Label(fmt.Sprint("Logs:")),
