@@ -11,20 +11,6 @@ import (
 
 	"github.com/pterm/pterm"
 )
-
-type Error struct {
-	ErrorCode    uint64 `json:"error_code"`
-	ErrorMessage string `json:"error_message"`
-}
-
-type ConnectionSuccess struct {
-	ID string `json:"ID"`
-}
-
-type HeartBeatSuccess struct {
-	Time any `json:"time"`
-}
-
 func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		OS := r.Header.Get("OS")
