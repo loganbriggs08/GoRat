@@ -12,6 +12,7 @@ import (
 type ConnectionData struct {
 	ID                string
 	LastHeartbeatTime string
+	ConnectionTime    string
 }
 
 func CreateTables() bool {
