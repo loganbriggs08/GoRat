@@ -67,3 +67,7 @@ func CreateClientTable() []*go_rat.TableRowWidget {
 
 	return rows
 }
+
+func CreateClientArray() []string {
+	
+}
