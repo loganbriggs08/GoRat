@@ -63,7 +63,7 @@ func GetConnectionData(ID string) string {
 	for rows.Next() {
 		var connectionData ConnectionData
 
-		err := rows.Scan(&connectionData.ID, &connectionData.LastHeartbeatTime)
+		err := rows.Scan(&connectionData.ID, &connectionData.LastHeartbeatTime, &connectionData.ConnectionTime)
 
 		if err != nil {
 			pterm.Fatal.WithFatal(true).Println(err)
