@@ -41,14 +41,6 @@ func CreateClientTable() []*go_rat.TableRowWidget {
 		currentTime := time.Now()
 		timeDifference := currentTime.Sub(storedTime)
 
-		var currentlyConnected bool
-
-		if timeDifference.Seconds() >= 5 {
-			currentlyConnected = false
-		} else {
-			currentlyConnected = true
-		}
-
 		if timeDifference.Seconds() < 30 {
 			substrings := strings.Split(conn.ID, ".")
 
@@ -72,7 +64,7 @@ func CreateClientTable() []*go_rat.TableRowWidget {
 				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.MACAddress)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
 				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.OS)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
 				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.Name)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
-				go_rat.Label(fmt.Sprintf("%v", currentlyConnected)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
+				go_rat.Label(fmt.Sprintf("%v", "15:20:21")), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
 			)
 
 			rows = append(rows, row)
