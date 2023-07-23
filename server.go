@@ -23,7 +23,7 @@ func APIHandler() {
 }
 
 func GUIHandler() {
-	window := go_rat.NewMasterWindow("GoRat - 0 Connected Machines", 950, 550, go_rat.MasterWindowFlagsNotResizable)
+	window := go_rat.NewMasterWindow("GoRat - 0 Connected Machines", 1000, 550, go_rat.MasterWindowFlagsNotResizable)
 	window.Run(windows.MainWindow)
 }
 
