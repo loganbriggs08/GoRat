@@ -146,7 +146,7 @@ func GetConnectionTime(ID string) string {
 	}
 	defer db.Close()
 
-	rows, err := db.Query("SELECT connection_time FROM connections WHERE id = ?", ID)
+	rows, err := db.Query("SELECT id, last_heartbeat_time, connection_time FROM connections WHERE id = ?", ID)
 
 	if err != nil {
 		log.Fatal(err)
