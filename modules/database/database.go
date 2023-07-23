@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 
@@ -55,6 +56,7 @@ func GetConnectionData(ID string) string {
 	defer db.Close()
 
 	rows, err := db.Query("SELECT id, last_heartbeat_time FROM connections WHERE id = ?", ID)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -63,7 +65,7 @@ func GetConnectionData(ID string) string {
 	for rows.Next() {
 		var connectionData ConnectionData
 
-		err := rows.Scan(&connectionData.ID, &connectionData.LastHeartbeatTime, &connectionData.ConnectionTime)
+		err := rows.Scan(&connectionData.ID, &connectionData.LastHeartbeatTime)
 
 		if err != nil {
 			pterm.Fatal.WithFatal(true).Println(err)
