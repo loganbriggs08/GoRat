@@ -115,7 +115,7 @@ func GetConnections() []ConnectionData {
 	if err != nil {
 		return Connections
 	} else {
-		rows, err := database.Query("SELECT id, last_heartbeat_time FROM connections")
+		rows, err := database.Query("SELECT id, last_heartbeat_time, connection_time FROM connections")
 
 		if err != nil {
 			log.Fatal(err)
@@ -125,7 +125,7 @@ func GetConnections() []ConnectionData {
 		for rows.Next() {
 			var connectionData ConnectionData
 
-			err := rows.Scan(&connectionData.ID, &connectionData.LastHeartbeatTime)
+			err := rows.Scan(&connectionData.ID, &connectionData.LastHeartbeatTime, &connectionData.ConnectionTime)
 
 			if err != nil {
 				pterm.Fatal.WithFatal(true).Println(err)
