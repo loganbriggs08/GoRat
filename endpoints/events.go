@@ -11,10 +11,22 @@ func EventNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		if r.Header.Get("Authorization") == "" {
 			NewError := Error{
-				ErrorCode: http.StatusUnauthorized,
+				ErrorCode:    http.StatusUnauthorized,
 				ErrorMessage: "Content is missing from request headers.",
 			}
-			
+			w.WriteHeader(http.StatusUnauthorized)
+
+			NewResponseError, err := json.Marshal(NewError)
+
+			if err != nil {
+				pterm.Fatal.WithFatal(true).Println(err)
+			} else {
+				_, err := w.Write(NewResponseError)
+
+				if err != nil {
+					pterm.Fatal.WithFatal(true).Println(err)
+				}
+			}
 		}
 	} else {
 		NewError := Error{
