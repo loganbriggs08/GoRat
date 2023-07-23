@@ -12,6 +12,7 @@ import (
 
 func MainWindow() {
 	go_rat.SingleWindow().Layout(
+
 		go_rat.Label(fmt.Sprint("Logs:")),
 		go_rat.ListBox("Logs", []string{"Listening on port 8080...", "New Connection from AABE9B69-76A3-4344-A2CC-9540838DBJAA", "New Connection from AABE9B69-76A3-4344-A2CC-9540838DBJAA"}).Size(go_rat.Auto, 200),
 
@@ -21,5 +22,5 @@ func MainWindow() {
 			go_rat.TableColumn("MAC Address"),
 			go_rat.TableColumn("OS"),
 			go_rat.TableColumn("Name"),
-			go_rat.TableColumn("Connected")).Rows(components.CreateClientTable()...))
+			go_rat.TableColumn("Connected?")).Rows(components.CreateClientTable()...))
 }
