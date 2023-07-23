@@ -3,9 +3,9 @@ package main
 import (
 	"net/http"
 
-	"github.com/NotKatsu/GoRat/database"
+	"github.com/NotKatsu/GoRat/modules/database"
 
-	"github.com/NotKatsu/GoRat/endpoints"
+	"github.com/NotKatsu/GoRat/modules/endpoints"
 	"github.com/pterm/pterm"
 )
 

