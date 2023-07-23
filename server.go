@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
-	
+
+	"github.com/NotKatsu/GoRat/gui/windows"
 	"github.com/NotKatsu/GoRat/modules/database"
 	"github.com/NotKatsu/GoRat/modules/endpoints"
 	"github.com/pterm/pterm"
@@ -25,7 +25,7 @@ func main() {
 		}()
 
 		window := go_rat.NewMasterWindow("GoRat", 950, 550, go_rat.MasterWindowFlagsNotResizable)
-		window.Run(mainWindow)
+		window.Run(windows.MainWindow)
 	} else {
 		pterm.Fatal.WithFatal(true).Println("There was an error when the database tables were trying to be created.")
 	}
