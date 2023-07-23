@@ -43,7 +43,6 @@ func CreateClientTable() []*go_rat.TableRowWidget {
 
 		for i, encodedData := range substrings {
 			if i == 0 {
-				fmt.Println(encodedData)
 				decodedMacAddress, _ := base64.URLEncoding.DecodeString(encodedData)
 				NewEncodedDataStruct.MACAddress = string(decodedMacAddress)
 
@@ -55,8 +54,6 @@ func CreateClientTable() []*go_rat.TableRowWidget {
 				NewEncodedDataStruct.Name = string(decodedName)
 			}
 		}
-
-		fmt.Println(NewEncodedDataStruct.MACAddress)
 
 		row := go_rat.TableRow(
 			go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.MACAddress)),
