@@ -11,7 +11,7 @@ import (
 	go_rat "github.com/AllenDang/giu"
 )
 
-func connectedMachines() int64 {
+func connectedMachinesCount() int64 {
 	var connectionCount int64
 	connections := database.GetConnections()
 
@@ -36,7 +36,7 @@ func MainWindow() {
 		go_rat.Label(fmt.Sprint("Logs:")),
 		go_rat.ListBox("Logs", components.CreateClientArray()).Size(go_rat.Auto, 200),
 
-		go_rat.Label(fmt.Sprintf("Connected Machines (%d)", connectedMachines())),
+		go_rat.Label(fmt.Sprintf("Connected Machines (%d)", connectedMachinesCount())),
 
 		go_rat.Table().Columns(
 			go_rat.TableColumn("MAC Address"),
