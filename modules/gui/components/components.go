@@ -16,6 +16,18 @@ type EncodedDataStruct struct {
 	Name       string
 }
 
+func CreateClientContextMenu(MACAddress string) *go_rat.ContextMenuWidget {
+	return go_rat.ContextMenu().Layout(
+		go_rat.Label(fmt.Sprintf("Operations for %s", MACAddress[0:7]+"...")),
+
+		go_rat.TreeNode("System").Layout(
+			go_rat.Selectable("File Executor").OnClick(func() {
+				fmt.Println("Hello World")
+			}),
+			go_rat.Selectable("Remote Shell").OnClick(func() {
+				fmt.Println("Hello World")
+			})))
+}
 func CreateClientTable() []*go_rat.TableRowWidget {
 	rows := make([]*go_rat.TableRowWidget, 0)
 	connections := database.GetConnections()
@@ -57,10 +69,10 @@ func CreateClientTable() []*go_rat.TableRowWidget {
 			}
 
 			row := go_rat.TableRow(
-				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.MACAddress)),
-				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.OS)),
-				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.Name)),
-				go_rat.Label(fmt.Sprintf("%v", currentlyConnected)),
+				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.MACAddress)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
+				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.OS)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
+				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.Name)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
+				go_rat.Label(fmt.Sprintf("%v", currentlyConnected)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
 			)
 
 			rows = append(rows, row)
