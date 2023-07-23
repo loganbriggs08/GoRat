@@ -40,10 +40,49 @@ func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 		} else {
 			CustomID := base64.StdEncoding.EncodeToString([]byte(MACAddress)) + "." + base64.StdEncoding.EncodeToString([]byte(OS)) + "." + base64.StdEncoding.EncodeToString([]byte(Name))
 
-			if database.ConnectionNew(CustomID) == false {
+			if database.GetConnectionData(CustomID) == "" {
+				if database.ConnectionNew(CustomID) == false {
+					NewError := Error{
+						ErrorCode:    http.StatusForbidden,
+						ErrorMessage: "A database error occured while trying to insert the document.",
+					}
+
+					w.WriteHeader(http.StatusForbidden)
+
+					NewReturnError, err := json.Marshal(NewError)
+
+					if err != nil {
+						pterm.Fatal.WithFatal(true).Println(err)
+					} else {
+						_, err := w.Write(NewReturnError)
+
+						if err != nil {
+							pterm.Fatal.WithFatal(true).Println(err)
+						}
+					}
+				} else {
+					ConnectionSuccessJson := ConnectionSuccess{
+						ID: CustomID,
+					}
+
+					w.WriteHeader(http.StatusOK)
+
+					NewConnectionSuccessJson, err := json.Marshal(ConnectionSuccessJson)
+
+					if err != nil {
+						pterm.Fatal.WithFatal(true).Println(err)
+					} else {
+						_, err := w.Write(NewConnectionSuccessJson)
+
+						if err != nil {
+							pterm.Fatal.WithFatal(true).Println(err)
+						}
+					}
+				}
+			} else {
 				NewError := Error{
 					ErrorCode:    http.StatusForbidden,
-					ErrorMessage: "A database error occured while trying to insert the document.",
+					ErrorMessage: "Please send another heartbeat then create a new connection request.",
 				}
 
 				w.WriteHeader(http.StatusForbidden)
@@ -54,24 +93,6 @@ func ConnectionNew(w http.ResponseWriter, r *http.Request) {
 					pterm.Fatal.WithFatal(true).Println(err)
 				} else {
 					_, err := w.Write(NewReturnError)
-
-					if err != nil {
-						pterm.Fatal.WithFatal(true).Println(err)
-					}
-				}
-			} else {
-				ConnectionSuccessJson := ConnectionSuccess{
-					ID: CustomID,
-				}
-
-				w.WriteHeader(http.StatusOK)
-
-				NewConnectionSuccessJson, err := json.Marshal(ConnectionSuccessJson)
-
-				if err != nil {
-					pterm.Fatal.WithFatal(true).Println(err)
-				} else {
-					_, err := w.Write(NewConnectionSuccessJson)
 
 					if err != nil {
 						pterm.Fatal.WithFatal(true).Println(err)
