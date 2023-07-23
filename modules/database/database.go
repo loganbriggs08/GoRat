@@ -105,3 +105,15 @@ func UpdateConnection(ID string) bool {
 		}
 	}
 }
+
+func GetConnections() []ConnectionData {
+	var Connections []ConnectionData
+
+	database, err := sql.Open("sqlite3", "database.db")
+
+	if err != nil {
+		return Connections
+	} else {
+
+	}
+}
