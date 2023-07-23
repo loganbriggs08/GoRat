@@ -14,6 +14,8 @@ func main() {
 		http.HandleFunc("/connection/new", endpoints.ConnectionNew)
 		http.HandleFunc("/connection/heartbeat", endpoints.ConnectionHeartbeat)
 
+		http.HandleFunc("/event/new", endpoints.EventNew)
+
 		err := http.ListenAndServe(":8080", nil)
 
 		if err != nil {
