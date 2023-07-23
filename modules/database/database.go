@@ -20,8 +20,7 @@ func CreateTables() bool {
 	if err != nil {
 		return false
 	} else {
-		_, err := database.Exec(`CREATE TABLE IF NOT EXISTS connections(id VARCHAR(100), last_heartbeat_time VARCHAR(255));
-								 CREATE TABLE IF NOT EXISTS control_authentication(authentication_token VARCHAR(255))`)
+		_, err := database.Exec(`CREATE TABLE IF NOT EXISTS connections(id VARCHAR(100), last_heartbeat_time VARCHAR(255))`)
 
 		if err != nil {
 			return false
