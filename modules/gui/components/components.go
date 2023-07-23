@@ -18,7 +18,7 @@ type EncodedDataStruct struct {
 
 func CreateClientContextMenu(MACAddress string) *go_rat.ContextMenuWidget {
 	return go_rat.ContextMenu().Layout(
-		go_rat.Label(fmt.Sprintf("Operations for %s", MACAddress[0:7]+"...")),
+		go_rat.Label(fmt.Sprintf("Operations for %s", MACAddress[0:11]+"...")),
 
 		go_rat.TreeNode("System").Layout(
 			go_rat.Selectable("File Executor").OnClick(func() {
