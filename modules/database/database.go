@@ -138,3 +138,32 @@ func GetConnections() []ConnectionData {
 		return Connections
 	}
 }
+
+func GetConnectionTime(ID string) string {
+	db, err := sql.Open("sqlite3", "database.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT connection_time FROM connections WHERE id = ?", ID)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var connectionData ConnectionData
+
+		err := rows.Scan(&connectionData.ID, &connectionData.LastHeartbeatTime, &connectionData.ConnectionTime)
+
+		if err != nil {
+			pterm.Fatal.WithFatal(true).Println(err)
+		} else {
+			return connectionData.ConnectionTime
+		}
+
+	}
+	return ""
+}
