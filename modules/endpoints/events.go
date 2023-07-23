@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/pterm/pterm"
@@ -27,7 +28,10 @@ func EventNew(w http.ResponseWriter, r *http.Request) {
 					pterm.Fatal.WithFatal(true).Println(err)
 				}
 			}
+		} else {
+			fmt.Fprint(w, "Everything looks OK.")
 		}
+
 	} else {
 		NewError := Error{
 			ErrorCode:    http.StatusMethodNotAllowed,
