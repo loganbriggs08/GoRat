@@ -32,11 +32,10 @@ func connectedMachinesCount() int64 {
 }
 func MainWindow() {
 	go_rat.SingleWindow().Layout(
-
 		go_rat.Label(fmt.Sprint("Logs:")),
 		go_rat.ListBox("Logs", components.CreateClientArray()).Size(go_rat.Auto, 200),
 
-		go_rat.Label(fmt.Sprintf("Connected Machines (%d)", connectedMachinesCount())),
+		go_rat.Label("Connected Machines:"),
 
 		go_rat.Table().Columns(
 			go_rat.TableColumn("MAC Address"),
