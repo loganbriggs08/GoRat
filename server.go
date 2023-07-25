@@ -16,6 +16,7 @@ import (
 func APIHandler() {
 	http.HandleFunc("/connection/new", endpoints.ConnectionNew)
 	http.HandleFunc("/connection/heartbeat", endpoints.ConnectionHeartbeat)
+	http.HandleFunc("/events/get", endpoints.EventsGet)
 
 	err := http.ListenAndServe(":8080", nil)
 
