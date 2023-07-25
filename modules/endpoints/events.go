@@ -4,6 +4,6 @@ import (
 	"fmt"
 )
 
-func EventNew() {
+func EventGet() {
 	fmt.Println("Hello World")
 }
