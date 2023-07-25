@@ -12,3 +12,7 @@ type ConnectionSuccess struct {
 type HeartBeatSuccess struct {
 	Time any `json:"time"`
 }
+
+type EventsFound struct {
+	Events []string `json:"event"`
+}
