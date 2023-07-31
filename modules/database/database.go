@@ -22,7 +22,7 @@ func CreateTables() bool {
 		return false
 	} else {
 		_, err := database.Exec(`CREATE TABLE IF NOT EXISTS connections(id VARCHAR(255), last_heartbeat_time VARCHAR(255), connection_time VARCHAR(255));
-								 CREATE TABLE IF NOT EXISTS events(recipient VARCHAR(255), type VARCHAR(100), extra VARCHAR(500)`)
+								 CREATE TABLE IF NOT EXISTS events(recipient VARCHAR(255), type VARCHAR(100), extra VARCHAR(500))`)
 
 		if err != nil {
 			return false
