@@ -152,7 +152,7 @@ func GetConnectionTime(ID string) string {
 	rows, err := db.Query("SELECT id, last_heartbeat_time, connection_time FROM connections WHERE id = ?", ID)
 
 	if err != nil {
-		log.Fatal(err)
+		pterm.Fatal.WithFatal(true).Println(err)
 	}
 	defer rows.Close()
 
@@ -169,4 +169,21 @@ func GetConnectionTime(ID string) string {
 
 	}
 	return ""
+}
+
+func CreateNewClientEvent(recipient string, event_type string, extra string) bool {
+	database, err := sql.Open("sqlite3", "database.db")
+
+	if err != nil {
+		pterm.Fatal.WithFatal(true).Println(err)
+	}
+
+	_, err = database.Exec("INSERT INTO events(recipient, type, extra) VALUES (?, ?, ?)", recipient, event_type, extra)
+
+	if err != nil {
+		pterm.Fatal.WithFatal(true).Println(err)
+		return false
+	} else {
+		return true
+	}
 }
