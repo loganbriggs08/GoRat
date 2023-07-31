@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 
@@ -179,31 +180,31 @@ func GetConnectionTime(ID string) string {
 
 func GetClientEvents(ID string) []EventData {
 	database, err := sql.Open("sqlite3", "database.db")
-
-	var EventDataResult []EventData
-
-	if err != nil {
-		return EventDataResult
-	}
-
-	rows, err := database.Query("SELECT recipient, type, extra FROM events WHERE recipient = ?", ID)
-
 	if err != nil {
 		pterm.Fatal.WithFatal(true).Println(err)
+		return nil
+	}
+	defer database.Close()
+
+	rows, err := database.Query("SELECT recipient, type, extra FROM events WHERE recipient = ?", ID)
+	if err != nil {
+		pterm.Fatal.WithFatal(true).Println(err)
+		return nil
 	}
 	defer rows.Close()
 
+	var EventDataResult []EventData
 
 	for rows.Next() {
 		var eventDataCurrent EventData
 
 		err := rows.Scan(&eventDataCurrent.Recipient, &eventDataCurrent.EventType, &eventDataCurrent.Extra)
-
 		if err != nil {
-			return EventDataResult
-		} else {
-			EventDataResult = append(EventDataResult, eventDataCurrent)
+			pterm.Fatal.WithFatal(true).Println(err)
+			return nil
 		}
+
+		EventDataResult = append(EventDataResult, eventDataCurrent)
 	}
 
 	return EventDataResult
