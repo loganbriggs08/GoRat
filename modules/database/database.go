@@ -16,9 +16,9 @@ type ConnectionData struct {
 }
 
 type EventData struct {
-	Recipient string `json:"recipient"`
-	EventType string `json:"type"`
-	Extra     string `json:"extra"`
+	Recipient string
+	EventType string
+	Extra     string
 }
 
 func CreateTables() bool {
@@ -186,7 +186,7 @@ func GetClientEvents(ID string) []EventData {
 		return EventDataResult
 	}
 
-	rows, err := database.Query("SELECT recipient, type, extra FROM events WHERE id = ?", ID)
+	rows, err := database.Query("SELECT recipient, type, extra FROM events WHERE recipient = ?", ID)
 
 	if err != nil {
 		pterm.Fatal.WithFatal(true).Println(err)
