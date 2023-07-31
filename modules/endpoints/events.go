@@ -33,7 +33,29 @@ func EventsGet(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 		} else {
-			fmt.Fprintf(w, "Everything looks all good and you are authorized.")
+			EventsFoundArray := database.GetClientEvents(customID)
+
+			if len(EventsFoundArray) == 0 {
+				ErrorReturnStruct := Error{
+					ErrorCode:    http.StatusNoContent,
+					ErrorMessage: "There is no events for the client, please try again later.",
+				}
+				w.WriteHeader(http.StatusNoContent)
+
+				ErrorReturnStructMarshal, err := json.Marshal(ErrorReturnStruct)
+
+				if err != nil {
+					pterm.Fatal.WithFatal(true).Println(err)
+				} else {
+					_, err := w.Write(ErrorReturnStructMarshal)
+
+					if err != nil {
+						pterm.Fatal.WithFatal(true).Println(err)
+					}
+				}
+			} else {
+				fmt.Println("Found Events to return.")
+			}
 		}
 
 	} else {
