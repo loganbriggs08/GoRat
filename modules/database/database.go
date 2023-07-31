@@ -193,6 +193,7 @@ func GetClientEvents(ID string) []EventData {
 	}
 	defer rows.Close()
 
+
 	for rows.Next() {
 		var eventDataCurrent EventData
 
