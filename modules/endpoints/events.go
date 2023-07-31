@@ -37,10 +37,10 @@ func EventsGet(w http.ResponseWriter, r *http.Request) {
 
 			if len(EventsFoundArray) == 0 {
 				ErrorReturnStruct := Error{
-					ErrorCode:    http.StatusNoContent,
+					ErrorCode:    http.StatusForbidden,
 					ErrorMessage: "There is no events for the client, please try again later.",
 				}
-				w.WriteHeader(http.StatusNoContent)
+				w.WriteHeader(http.StatusForbidden)
 
 				ErrorReturnStructMarshal, err := json.Marshal(ErrorReturnStruct)
 
@@ -54,7 +54,9 @@ func EventsGet(w http.ResponseWriter, r *http.Request) {
 					}
 				}
 			} else {
-				fmt.Println("Found Events to return.")
+				clientEventsArray := database.GetClientEvents(customID)
+
+				fmt.Println(clientEventsArray)
 			}
 		}
 
