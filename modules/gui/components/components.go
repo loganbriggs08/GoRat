@@ -40,10 +40,10 @@ func CreateClientContextMenu(MACAddress string) *go_rat.ContextMenuWidget {
 		go_rat.Label(fmt.Sprintf("Operations for %s", MACAddress[0:11]+"...")),
 
 		go_rat.TreeNode("System").Layout(
-			go_rat.Selectable("File Executor").OnClick(func() {
+			go_rat.Selectable("Reboot").OnClick(func() {
 				fmt.Println("Hello World")
 			}),
-			go_rat.Selectable("Remote Shell").OnClick(func() {
+			go_rat.Selectable("Shutdown").OnClick(func() {
 				fmt.Println("Hello World")
 			})),
 
