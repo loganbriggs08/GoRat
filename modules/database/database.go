@@ -15,6 +15,12 @@ type ConnectionData struct {
 	ConnectionTime    string
 }
 
+type EventData struct {
+	Recipient string `json:"recipient"`
+	EventType string `json:"type"`
+	Extra     string `json:"extra"`
+}
+
 func CreateTables() bool {
 	database, err := sql.Open("sqlite3", "database.db")
 
@@ -169,6 +175,37 @@ func GetConnectionTime(ID string) string {
 
 	}
 	return ""
+}
+
+func GetClientEvents(ID string) []EventData {
+	database, err := sql.Open("sqlite3", "database.db")
+
+	var EventDataResult []EventData
+
+	if err != nil {
+		return EventDataResult
+	}
+
+	rows, err := database.Query("SELECT recipient, type, extra FROM events WHERE id = ?", ID)
+
+	if err != nil {
+		pterm.Fatal.WithFatal(true).Println(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var eventDataCurrent EventData
+
+		err := rows.Scan(&eventDataCurrent.Recipient, &eventDataCurrent.EventType, &eventDataCurrent.Extra)
+
+		if err != nil {
+			return EventDataResult
+		} else {
+			EventDataResult = append(EventDataResult, eventDataCurrent)
+		}
+	}
+
+	return EventDataResult
 }
 
 func CreateNewClientEvent(recipient string, event_type string, extra string) bool {
