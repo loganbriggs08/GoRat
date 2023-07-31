@@ -208,14 +208,14 @@ func GetClientEvents(ID string) []EventData {
 	return EventDataResult
 }
 
-func CreateNewClientEvent(recipient string, event_type string, extra string) bool {
+func CreateNewClientEvent(recipient string, eventType string, extra string) bool {
 	database, err := sql.Open("sqlite3", "database.db")
 
 	if err != nil {
 		pterm.Fatal.WithFatal(true).Println(err)
 	}
 
-	_, err = database.Exec("INSERT INTO events(recipient, type, extra) VALUES (?, ?, ?)", recipient, event_type, extra)
+	_, err = database.Exec("INSERT INTO events(recipient, type, extra) VALUES (?, ?, ?)", recipient, eventType, extra)
 
 	if err != nil {
 		pterm.Fatal.WithFatal(true).Println(err)
