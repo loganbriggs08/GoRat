@@ -41,10 +41,10 @@ func CreateClientContextMenu(MACAddress string) *go_rat.ContextMenuWidget {
 
 		go_rat.TreeNode("System").Layout(
 			go_rat.Selectable("Reboot").OnClick(func() {
-				database.CreateNewClientEvent(MACAddress, "terminal", "reboot")
+				database.CreateNewClientEvent(MACAddress, "system", "reboot")
 			}),
 			go_rat.Selectable("Shutdown").OnClick(func() {
-				database.CreateNewClientEvent(MACAddress, "terminal", "shutdown")
+				database.CreateNewClientEvent(MACAddress, "system", "shutdown")
 			})),
 
 		go_rat.Selectable(notificationStateText()).OnClick(updateNotifcationState))
