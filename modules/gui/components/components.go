@@ -11,10 +11,28 @@ import (
 	"github.com/pterm/pterm"
 )
 
+var currentNotificationState bool = true
+
 type EncodedDataStruct struct {
 	MACAddress string
 	OS         string
 	Name       string
+}
+
+func notificationStateText() string {
+	if currentNotificationState == true {
+		return "Turn Notifications Off"
+	} else {
+		return "Turn Notifications On"
+	}
+}
+
+func updateNotifcationState() {
+	if currentNotificationState == true {
+		currentNotificationState = false
+	} else {
+		currentNotificationState = true
+	}
 }
 
 func CreateClientContextMenu(MACAddress string) *go_rat.ContextMenuWidget {
@@ -27,7 +45,10 @@ func CreateClientContextMenu(MACAddress string) *go_rat.ContextMenuWidget {
 			}),
 			go_rat.Selectable("Remote Shell").OnClick(func() {
 				fmt.Println("Hello World")
-			})))
+			})),
+
+		go_rat.Selectable(notificationStateText()).OnClick(updateNotifcationState))
+
 }
 func CreateClientTable() []*go_rat.TableRowWidget {
 	rows := make([]*go_rat.TableRowWidget, 0)
