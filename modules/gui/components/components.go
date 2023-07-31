@@ -35,16 +35,16 @@ func updateNotifcationState() {
 	}
 }
 
-func CreateClientContextMenu(MACAddress string) *go_rat.ContextMenuWidget {
+func CreateClientContextMenu(MACAddress string, ID string) *go_rat.ContextMenuWidget {
 	return go_rat.ContextMenu().Layout(
 		go_rat.Label(fmt.Sprintf("Operations for %s", MACAddress[0:11]+"...")),
 
 		go_rat.TreeNode("System").Layout(
 			go_rat.Selectable("Reboot").OnClick(func() {
-				database.CreateNewClientEvent(MACAddress, "system", "reboot")
+				database.CreateNewClientEvent(ID, "system", "reboot")
 			}),
 			go_rat.Selectable("Shutdown").OnClick(func() {
-				database.CreateNewClientEvent(MACAddress, "system", "shutdown")
+				database.CreateNewClientEvent(ID, "system", "shutdown")
 			})),
 
 		go_rat.Selectable(notificationStateText()).OnClick(updateNotifcationState))
@@ -95,10 +95,10 @@ func CreateClientTable() []*go_rat.TableRowWidget {
 			outputTimeStr := dbTime.Format(outputLayout)
 
 			row := go_rat.TableRow(
-				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.MACAddress)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
-				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.OS)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
-				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.Name)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
-				go_rat.Label(fmt.Sprintf("%v", outputTimeStr)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress),
+				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.MACAddress)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress, conn.ID),
+				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.OS)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress, conn.ID),
+				go_rat.Label(fmt.Sprintf("%v", NewEncodedDataStruct.Name)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress, conn.ID),
+				go_rat.Label(fmt.Sprintf("%v", outputTimeStr)), CreateClientContextMenu(NewEncodedDataStruct.MACAddress, conn.ID),
 			)
 
 			rows = append(rows, row)
