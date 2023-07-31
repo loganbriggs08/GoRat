@@ -13,7 +13,7 @@ type HeartBeatSuccess struct {
 	Time any `json:"time"`
 }
 
-type EventFound struct {
+type EventFoundReturn struct {
 	Recipient string `json:"recipient"`
 	EventType string `json:"event_type"`
 	Extra     string `json:"extra"`

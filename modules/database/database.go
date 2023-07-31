@@ -177,22 +177,23 @@ func GetConnectionTime(ID string) string {
 	return ""
 }
 
-func GetClientEvents(ID string) []EventData {
+func GetClientEvent(ID string) EventData {
+	var EventDataResult EventData
 	database, err := sql.Open("sqlite3", "database.db")
+
 	if err != nil {
 		pterm.Fatal.WithFatal(true).Println(err)
-		return nil
+		return EventData{Recipient: "None", EventType: "None", Extra: "None"}
 	}
 	defer database.Close()
 
-	rows, err := database.Query("SELECT recipient, type, extra FROM events WHERE recipient = ?", ID)
+	rows, err := database.Query("SELECT recipient, type, extra FROM events WHERE recipient = ? LIMIT 1", ID)
 	if err != nil {
 		pterm.Fatal.WithFatal(true).Println(err)
-		return nil
+
+		return EventData{Recipient: "None", EventType: "None", Extra: "None"}
 	}
 	defer rows.Close()
-
-	var EventDataResult []EventData
 
 	for rows.Next() {
 		var eventDataCurrent EventData
@@ -200,10 +201,9 @@ func GetClientEvents(ID string) []EventData {
 		err := rows.Scan(&eventDataCurrent.Recipient, &eventDataCurrent.EventType, &eventDataCurrent.Extra)
 		if err != nil {
 			pterm.Fatal.WithFatal(true).Println(err)
-			return nil
 		}
 
-		EventDataResult = append(EventDataResult, eventDataCurrent)
+		return eventDataCurrent
 	}
 
 	return EventDataResult
