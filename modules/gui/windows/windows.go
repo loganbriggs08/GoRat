@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pterm/pterm"
 	"github.com/NotKatsu/GoRat/modules/database"
 	"github.com/NotKatsu/GoRat/modules/gui/components"
+	"github.com/pterm/pterm"
 
 	go_rat "github.com/AllenDang/giu"
 )
@@ -34,7 +34,7 @@ func connectedMachinesCount() int64 {
 func MainWindow() {
 	go_rat.SingleWindow().Layout(
 
-		go_rat.Label(fmt.Sprint("Logs:")),
+		go_rat.Label(fmt.Sprint("Connection Logs:")),
 		go_rat.ListBox("Logs", components.CreateClientArray()).Size(go_rat.Auto, 200),
 
 		go_rat.Label(fmt.Sprintf("Connected Machines (%d)", connectedMachinesCount())),
