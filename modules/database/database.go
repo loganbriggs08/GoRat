@@ -177,6 +177,24 @@ func GetConnectionTime(ID string) string {
 	return ""
 }
 
+func DeleteClientEvent(ID string, event_type string, extra string) bool {
+	database, err := sql.Open("sqlite3", "database.db")
+
+	if err != nil {
+		pterm.Fatal.WithFatal(true).Println(err)
+		return false
+	}
+
+	_, err = database.Exec("DELETE FROM events WHERE recipient = ? AND type = ? AND extra = ?", ID, event_type, extra)
+
+	if err != nil {
+		pterm.Fatal.WithFatal(true).Println(err)
+		return false
+	} else {
+		return true
+	}
+}
+
 func GetClientEvent(ID string) EventData {
 	var EventDataResult EventData
 	database, err := sql.Open("sqlite3", "database.db")
@@ -188,6 +206,7 @@ func GetClientEvent(ID string) EventData {
 	defer database.Close()
 
 	rows, err := database.Query("SELECT recipient, type, extra FROM events WHERE recipient = ? LIMIT 1", ID)
+
 	if err != nil {
 		pterm.Fatal.WithFatal(true).Println(err)
 
@@ -199,10 +218,10 @@ func GetClientEvent(ID string) EventData {
 		var eventDataCurrent EventData
 
 		err := rows.Scan(&eventDataCurrent.Recipient, &eventDataCurrent.EventType, &eventDataCurrent.Extra)
+
 		if err != nil {
 			pterm.Fatal.WithFatal(true).Println(err)
 		}
-
 		return eventDataCurrent
 	}
 

@@ -34,7 +34,7 @@ func EventsGet(w http.ResponseWriter, r *http.Request) {
 		} else {
 			EventFound := database.GetClientEvent(customID)
 
-			if EventFound.Recipient == "None" {
+			if EventFound.Recipient == "None" || EventFound.Recipient == "" {
 				ErrorReturnStruct := Error{
 					ErrorCode:    http.StatusForbidden,
 					ErrorMessage: "There is no events for the client, please try again later.",
@@ -61,6 +61,8 @@ func EventsGet(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusOK)
 
 				EventFoundReturnStructMarshal, err := json.Marshal(EventFoundReturnStruct)
+
+				database.DeleteClientEvent(EventFound.Recipient, EventFound.EventType, EventFound.Extra)
 
 				if err != nil {
 					pterm.Fatal.WithFatal(true).Println(err)
