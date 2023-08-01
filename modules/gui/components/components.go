@@ -31,10 +31,10 @@ func notificationStateText() string {
 
 func updateNotifcationState() {
 	if currentNotificationState == true {
-		modules.NewNotification("GoRat - Notifications Toggled", "Notifications have been toggled off.")
+		modules.NewNotification("GoRat - Notifications Toggled", "Notifications have been successfully toggled off.")
 		currentNotificationState = false
 	} else {
-		modules.NewNotification("GoRat - Notifications Toggled", "Notifications have been toggled on.")
+		modules.NewNotification("GoRat - Notifications Toggled", "Notifications have been successfully toggled on.")
 		currentNotificationState = true
 	}
 }

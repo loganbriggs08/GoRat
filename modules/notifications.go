@@ -1,19 +1,10 @@
 package modules
 
-import (
-	"github.com/0xAX/notificator"
-	"github.com/pterm/pterm"
-)
+import "github.com/gen2brain/beeep"
 
 func NewNotification(title string, description string) {
-	notificationPusher = notificator.New(notificator.Options{
-		DefaultIcon: "icon.png",
-		AppName:     "GoRat",
-	})
-
-	err := notificationPusher.Push(title, description, "/assets/icon.png", notificator.UR_CRITICAL)
-
+	err := beeep.Notify(title, description, "/assets/icon.png")
 	if err != nil {
-		pterm.Fatal.WithFatal(true).Println(err)
+		panic(err)
 	}
 }
