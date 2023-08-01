@@ -1,12 +1,19 @@
 package modules
 
-import "github.com/0xAX/notificator"
+import (
+	"github.com/0xAX/notificator"
+	"github.com/pterm/pterm"
+)
 
-var notificationPusher *notificator.Notificator
-
-func NewNotification() {
+func NewNotification(title string, description string) {
 	notificationPusher = notificator.New(notificator.Options{
-		DefaultIcon: "",
-		AppName: "GoRat",
+		DefaultIcon: "icon.png",
+		AppName:     "GoRat",
 	})
+
+	err := notificationPusher.Push(title, description, "/assets/icon.png", notificator.UR_CRITICAL)
+
+	if err != nil {
+		pterm.Fatal.WithFatal(true).Println(err)
+	}
 }

